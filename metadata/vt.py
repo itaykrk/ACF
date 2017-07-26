@@ -35,5 +35,5 @@ class VirusTotalPlugin(MetadataPlugin):
                 return ""
             else:
                 return json_response
-        except Exception, e:
+        except Exception as e:
             return ""

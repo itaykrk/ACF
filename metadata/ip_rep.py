@@ -1,4 +1,4 @@
-import urllib2
+import urllib3
 from metadata import MetadataPlugin
 
 
@@ -20,13 +20,13 @@ class IpRepPlugin(MetadataPlugin):
     def get_rep_list(self):
         alientvault_resp = ""
         try:
-            req = urllib2.Request(
+            req = urllib3.Request(
                 'http://reputation.alienvault.com/reputation.data')
             req.add_header(
                 'User-agent',
                 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36')
-            response = urllib2.urlopen(req)
+            response = urllib3.urlopen(req)
             alientvault_resp = response.read()
-        except Exception, e:
+        except Exception as e:
             self._is_rep_list = False
         return alientvault_resp

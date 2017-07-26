@@ -23,5 +23,5 @@ class IpInfoPlugin(MetadataPlugin):
             for k in response.keys():
                 response[k] = unicode(response[k])
             return response
-        except Exception, e:
-            return 'Error: Cannot retrieve %s info. Exception: %s' % (ip, e.message)
+        except Exception as e:
+            return 'Error: Cannot retrieve %s info. Exception: %s' % (ip, str(message))

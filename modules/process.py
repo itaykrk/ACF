@@ -43,6 +43,6 @@ class Process(object):
                 protocol = self._protocols[current_protocol]
                 state = int(connection[3], 16)
                 formatted_conns.append((src_ip, src_port, dst_ip, dst_port, protocol, state))
-        except Exception,e:
-            print "[!] Exception while parsing connections from %s. Exception: %s" % (self.name, e.message)
+        except Exception as e:
+            print("[!] Exception while parsing connections from %s. Exception: %s" % (self.name, e.message))
         self._manage_connections(formatted_conns)

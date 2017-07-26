@@ -44,7 +44,7 @@ def load_metadata_plugins():
                 if inspect.isclass(obj) and obj.__name__ != "MetadataPlugin":
                     if obj.__name__.endswith("Plugin"):
                         metadata_plugins.append(obj())
-        except Exception, e:
+        except Exception as e:
             pass
     return metadata_plugins
 
@@ -87,8 +87,8 @@ def get_running_processes(adb, package_filter, user_filter):
                     "name": cols[-1]
                 })
                 yield pDict
-    except Exception, e:
-        print "[!] Cannot retrieve running processes. Exception: %s" % e.message
+    except Exception as e:
+        print("[!] Cannot retrieve running processes. Exception: %s") % str(e)
 
 
 def log_file_writer(loq_queue, filename):
@@ -113,7 +113,7 @@ def console_writer(console_writer_queue):
         line[4] = hex_to_ip(line[4])
         line[6] = hex_to_ip(line[6])
         line[-1] = STATES[line[-1]]
-        print ', '.join(map(str, line))
+        print(', '.join(map(str, line)))
         console_writer_queue.task_done()
 
 

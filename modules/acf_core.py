@@ -1,9 +1,10 @@
-import Queue
+import queue
 import threading
 from time import sleep
 from modules.adb import AndroidDebuggingBridge
 
 DIRECTORY_NOT_FOUND = "No such file or directory"
+
 
 class Acf(threading.Thread):
     def __init__(self, device_id, threads_num=20):
@@ -12,7 +13,7 @@ class Acf(threading.Thread):
         self._device_id = device_id
         self._command = "shell cat /proc/{pid}/net/icmp /proc/{pid}/net/tcp /proc/{pid}/net/udp /proc/{pid}/net/raw"
         self._adb = AndroidDebuggingBridge(device_id)
-        self._processes_queue = Queue.Queue()
+        self._processes_queue = queue.Queue()
         self._THREADS_NUM = threads_num
         self._create_threads()
 
@@ -33,13 +34,13 @@ class Acf(threading.Thread):
             if DIRECTORY_NOT_FOUND in output:
                 self._processes_queue.task_done()
                 continue
-            conns = output.split("\r\r\n")
+            conns = output.split("\r\n")
             process.updateConnections(conns)
 
             self._processes_queue.task_done()
 
     def _create_threads(self):
-        for i in xrange(self._THREADS_NUM):
+        for i in range(self._THREADS_NUM):
             t = threading.Thread(target=self._acm_worker)
             t.daemon = True
             t.start()

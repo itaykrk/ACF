@@ -5,7 +5,7 @@ Copyright (c) 2015, Itay Kruk, CyberHat LTD
 All rights reserved.
 
 """
-import Queue
+import queue
 import argparse
 import threading
 from time import sleep
@@ -16,17 +16,17 @@ from utilities.utils import get_running_processes, console_writer, log_file_writ
 
 
 def set_up_writers(args):
-    console_writer_q = Queue.Queue()
+    console_writer_q = queue.Queue()
     console_writer_t = threading.Thread(target=console_writer, args=(console_writer_q,))
     console_writer_t.daemon = True
     console_writer_t.start()
 
-    log_file_q = Queue.Queue()
+    log_file_q = queue.Queue()
     log_file_t = threading.Thread(target=log_file_writer, args=(log_file_q, args.log_file))
     log_file_t.daemon = True
     log_file_t.start()
 
-    metadata_file_q = Queue.Queue()
+    metadata_file_q = queue.Queue()
     metadata_file_t = threading.Thread(target=metadata_file_writer, args=(metadata_file_q, args.metadata_file))
     metadata_file_t.daemon = True
     metadata_file_t.start()
@@ -38,7 +38,7 @@ def main(args):
     processes = []
     try:
         console_writer_q, log_file_q, metadata_file_q = set_up_writers(args)
-        print "[!] Set up plugins. it may take a few seconds .."
+        print("[!] Set up plugins. it may take a few seconds ..")
         sleep(2.5)
         acm = Acf(device_id=args.device_id, threads_num=args.threads)
         acm.setDaemon(True)
@@ -56,7 +56,7 @@ def main(args):
             sleep(1.2)
 
     except KeyboardInterrupt:
-        print "Bye Bye"
+        print("Bye Bye")
         exit(0)
 
 
@@ -79,5 +79,5 @@ if __name__ == "__main__":
         parser.print_help()
         exit(0)
     if (options.package_filter is not None) and (options.user_filter is not None):
-        print "[!] Please use only one filter method."
+        print("[!] Please use only one filter method.")
     main(options)

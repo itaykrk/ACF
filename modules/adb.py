@@ -10,15 +10,15 @@ class AndroidDebuggingBridge(object):
 
     def execute(self, cmd):
         (stdout, stderr) = Popen('adb -s %s %s' % (self.device, cmd), shell=True, stdout=PIPE).communicate()
-        self.output = stdout
+        self.output = stdout.decode(encoding='utf-8')
         self.error = stderr
 
     @staticmethod
     def shell(cmd, device):
         (stdout, stderr) = Popen('adb -s %s %s' % (device, cmd), shell=True, stdout=PIPE).communicate()
-        output = stdout
+        output = stdout.decode(encoding='utf-8')
         error = stderr
-        return stdout
+        return output
 
     def kill_server(self):
         self.execute("kill-server")
@@ -35,7 +35,7 @@ class AndroidDebuggingBridge(object):
         self.execute("devices")
         if "device" in self.output.split("\n")[1]:
             return True
-        print "Please connect a device. Make sure usb debugging mode is enabled and pc is authorized"
+        print("Please connect a device. Make sure usb debugging mode is enabled and pc is authorized")
         exit(0)
 
     def get_dumpsys(self, package):
